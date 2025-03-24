@@ -1,4 +1,4 @@
-// src/MarineMap.jsx
+// src/components/MarineMap.jsx
 import {
     MapContainer,
     TileLayer,
@@ -6,11 +6,10 @@ import {
     Popup,
     useMapEvents,
 } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 import { useState } from 'react';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 
-// Fix de iconos para que se vean correctamente
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
     iconRetinaUrl:
@@ -19,28 +18,14 @@ L.Icon.Default.mergeOptions({
     shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
 });
 
-function CenterMarker({ position }) {
-    return (
-        <Marker position={position}>
-            <Popup>
-                <strong>
-                    {position[0].toFixed(2)}° N / {position[1].toFixed(2)}° W
-                </strong>
-                <br />
-                Aquí podríamos mostrar datos marinos 🌊
-            </Popup>
-        </Marker>
-    );
-}
-
-export default function MarineMap() {
+function MarineMap() {
     const [center, setCenter] = useState([20, 0]);
 
     function MapEvents() {
         useMapEvents({
             moveend: (e) => {
-                const newCenter = e.target.getCenter();
-                setCenter([newCenter.lat, newCenter.lng]);
+                const c = e.target.getCenter();
+                setCenter([c.lat, c.lng]);
             },
         });
         return null;
@@ -50,8 +35,7 @@ export default function MarineMap() {
         <MapContainer
             center={center}
             zoom={3}
-            minZoom={2}
-            maxZoom={4}
+            minZoom={4}
             worldCopyJump={true}
             style={{ height: '100%', width: '100%' }}
         >
@@ -59,8 +43,14 @@ export default function MarineMap() {
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 attribution='© OpenStreetMap contributors'
             />
+            <Marker position={center}>
+                <Popup>
+                    {center[0].toFixed(2)}° N / {center[1].toFixed(2)}° W
+                </Popup>
+            </Marker>
             <MapEvents />
-            <CenterMarker position={center} />
         </MapContainer>
     );
 }
+
+export default MarineMap;
