@@ -1,24 +1,9 @@
-// src/components/MarineMap.jsx
-import {
-    MapContainer,
-    TileLayer,
-    Marker,
-    Popup,
-    useMapEvents,
-} from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
 import { useState } from 'react';
-import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import markerIcon from '../assets/marker.svg';
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl:
-        'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
-    iconUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-shadow.png',
-});
-
-function MarineMap() {
+export default function MarineMap() {
     const [center, setCenter] = useState([20, 0]);
 
     function MapEvents() {
@@ -32,25 +17,27 @@ function MarineMap() {
     }
 
     return (
-        <MapContainer
-            center={center}
-            zoom={3}
-            minZoom={4}
-            worldCopyJump={true}
-            style={{ height: '100%', width: '100%' }}
-        >
-            <TileLayer
-                url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                attribution='© OpenStreetMap contributors'
-            />
-            <Marker position={center}>
-                <Popup>
-                    {center[0].toFixed(2)}° N / {center[1].toFixed(2)}° W
-                </Popup>
-            </Marker>
-            <MapEvents />
-        </MapContainer>
+        <div className='relative w-full h-full'>
+            {/* Chincheta centrada */}
+            <div className='pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full z-[999]'>
+                <img src={markerIcon} alt='marker' className='w-6 h-6' />
+            </div>
+
+            {/* Mapa debajo */}
+            <MapContainer
+                center={center}
+                zoom={3}
+                minZoom={2}
+                maxZoom={4}
+                worldCopyJump={true}
+                style={{ height: '100%', width: '100%', zIndex: 0 }}
+            >
+                <TileLayer
+                    url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                    attribution='© OpenStreetMap contributors'
+                />
+                <MapEvents />
+            </MapContainer>
+        </div>
     );
 }
-
-export default MarineMap;

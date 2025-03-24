@@ -1,9 +1,7 @@
-import MarineMap from './components/MarineMap';
-
 export default function App() {
     return (
-        <div style={{ height: '100vh', width: '100%' }}>
-            <MarineMap />
+        <div className='bg-red-500 text-white p-4'>
+            Tailwind está funcionando ✅
         </div>
     );
 }
