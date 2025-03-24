@@ -7,8 +7,10 @@ function App() {
         <div className='flex flex-col h-screen'>
             <Header />
 
-            <main className='flex-grow'>
-                <MarineMap />
+            <main className='flex-grow relative'>
+                <div className='absolute inset-0'>
+                    <MarineMap />
+                </div>
             </main>
 
             <Footer />
