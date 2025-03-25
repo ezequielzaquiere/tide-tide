@@ -1,7 +1,13 @@
+import Header from './pages/Header';
+import MarineMap from './components/MarineMap';
+import Footer from './pages/Footer';
+
 export default function App() {
     return (
-        <div className='bg-red-500 text-white p-4'>
-            Tailwind está funcionando ✅
+        <div className='h-screen flex flex-col'>
+            <Header />
+            <MarineMap />
+            <Footer />
         </div>
     );
 }

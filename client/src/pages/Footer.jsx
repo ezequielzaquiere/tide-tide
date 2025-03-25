@@ -1,8 +1,20 @@
-// src/pages/Footer.jsx
-export default function Footer() {
+const Footer = () => {
     return (
-        <footer className='bg-gray-800 text-white text-center p-2'>
-            © 2025 BuoyApp - Todos los derechos reservados
+        <footer className='bg-blue-900 text-white text-sm py-4 px-6 flex items-center justify-between'>
+            <p>
+                © {new Date().getFullYear()} TideTide. Todos los derechos
+                reservados.
+            </p>
+            <div className='space-x-4'>
+                <a href='#' className='hover:underline'>
+                    Privacidad
+                </a>
+                <a href='#' className='hover:underline'>
+                    Contacto
+                </a>
+            </div>
         </footer>
     );
-}
+};
+
+export default Footer;
