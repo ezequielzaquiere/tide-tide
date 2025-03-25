@@ -9,3 +9,29 @@ body,
     margin: 0;
     padding: 0;
 }
+
+@layer utilities {
+    .bg-dark {
+        background: #0a2540;
+    }
+
+    .bg-deep {
+        background: #003f5c;
+    }
+
+    .bg-blue {
+        background: #2f80ed;
+    }
+
+    .bg-light {
+        background: #56ccf2;
+    }
+
+    .bg-soft {
+        background: #f2f2f2;
+    }
+
+    .bg-alert {
+        background: #eb5757;
+    }
+}
