@@ -1,11 +1,38 @@
 import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from '../assets/timon.svg'; // reemplazá si es necesario
+import { fetchMarineData } from '../services/openmeteo';
+import OverlayPanel from './ui/OverlayPanel';
 
 export default function MarineMap() {
     const [center, setCenter] = useState([20, 0]);
+    const [marineData, setMarineData] = useState(null);
 
+    useEffect(() => {
+        const loadData = async () => {
+            const data = await fetchMarineData(center[0], center[1]);
+            setMarineData([
+                {
+                    title: 'Altura de ola',
+                    value: data.waveHeight?.toFixed(1),
+                    unit: 'm',
+                },
+                {
+                    title: 'Viento',
+                    value: data.windSpeed?.toFixed(1),
+                    unit: 'km/h',
+                },
+                {
+                    title: 'Temperatura del agua',
+                    value: data.waterTemperature?.toFixed(1),
+                    unit: '°C',
+                },
+            ]);
+        };
+
+        loadData();
+    }, [center]);
     function MapEvents() {
         useMapEvents({
             moveend: (e) => {
@@ -41,6 +68,7 @@ export default function MarineMap() {
                 />
                 <MapEvents />
             </MapContainer>
+            {marineData && <OverlayPanel data={marineData} />}
         </div>
     );
 }
